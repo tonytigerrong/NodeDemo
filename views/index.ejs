@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <title>
+        Node Demo
+    </title>
+    <body>
+        <h1>userQuery : <%= data.userQuery%></h1>
+    <ul>
+       <% data.result.forEach(res =>{
+           %>
+           <li><%=res%></li>
+           <%
+       })%>
+    </ul>
+    </body>
+</html>
