@@ -9,6 +9,9 @@ const Logger = require('./Logger');
 const Cryptr = require('cryptr');
 const mysql = require('mysql');
 
+/**
+ * get mysql connection instance
+ */
 var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -17,17 +20,20 @@ var connection = mysql.createConnection({
     database: 'crudapi'
 });
 
+// make a connection request to mysql
 connection.connect(function(error){
     if(!!error){
         console.log('db connection err',error);
     }     
 });
+
+// Excute SQL via mysql connection instance
 connection.query("select * from employee",(error,rows,fields)=>{
     if(!!error){
 
     }else{
-        console.log(rows);
-        console.log(fields);
+        //console.log(rows);
+       // console.log(fields);
     }
 });
 
@@ -47,10 +53,22 @@ logger.on('logEvent',(message)=>{
     console.log('INFO:',message);
 });
 
+/** using middle ware
+ * set 'static' folder an alian name 'public'
+ *  form to be post to server
+ *  http://localhost:4000/public/index.html
+ */
 app.use('/public',express.static(path.join(__dirname,'static')));
+
+/** using middle ware
+ * set 'bodyParser' to parse url of request 
+ */
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-// middel ware
+
+/** using costum middle ware
+ * print url and method of http request
+ */
 app.use((req,res,next)=>{
     logger.log(req.url + '/' + req.method);
     req.banana = 'banana.login';
@@ -59,8 +77,16 @@ app.use((req,res,next)=>{
 app.set('view engine','ejs');
 
 const people = require('./router/people');
+/** using router middle ware
+ *  route uri start with 'people'
+ *  http://localhost:4000/people
+ *  http://localhost:4000/people/user
+ */
 app.use('/people',people);
 
+/**
+ * http://localhost:4000/query
+ */
 app.get('/:userQuery',(req,res)=>{
     //res.sendFile(path.join(__dirname,'static', 'index.html'));
     console.log(req.banana);
@@ -68,6 +94,7 @@ app.get('/:userQuery',(req,res)=>{
         username: 'david@gmail.com',
         passsword: '$$$$$$'
     });
+    // using template /views/index.ejs, and 'views' folder is default folder
     res.render('index',{
         data: {
             userQuery: req.params.userQuery,
@@ -82,15 +109,26 @@ app.post('/login',(req,res)=>{
         email : Joi.string().email().required(),
         password : Joi.string().max(10).min(5).required()
     });
-    // Joi.validate(req.body,schema,(err,result)=>{
-    //     if(err){
-    //         console.log(err);
-    //         res.send(err);
-    //     }else{
-    //         res.send('post ok');
-    //     }
-    // });
-    res.send('post ok');
+
+    // TODO: need check validation result
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).json(result.error.details[0].message);
+    }
+    //old syntax
+    /*
+    Joi.validate(req.body,schema,(err,result)=>{
+        if(err){
+            console.log(err);
+            res.send(err);
+        }else{
+            res.send('post ok');
+        }
+    });
+    */
+    // set response as json object
+    // res.json(result);
+    // res.send('post ok');
 });
 
 app.listen(4000);

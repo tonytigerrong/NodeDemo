@@ -5,10 +5,36 @@
     </title>
     <body>
         <h1>Node Demo</h1>
-        <form action="/login" method="POST">
+        <form id="form">
             <input type='email' name='email'/>
             <input type='password' name='password'/>
             <button type='submit'>submit</button>
         </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"> </script>
+        <script>
+            // execute once all html load finish
+            $(document).ready(()=>{
+                // define element's submit event handler
+                $('#form').submit((e)=>{
+                    /**
+                     *  prevent default action
+                     *  for <a href='...' /> , prevent open url '...' by click
+                     *  for <button onClick> , prevent click action 
+                     *  for <form> , prevent submit of form
+                     */
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/login',
+                        type: 'post',
+                        contentType: 'application/json',
+                        data: JSON.stringify($('#form').serializeArray()), // serialize form object and convert to json format
+                        success: (response)=>{
+                            console.log("success got request");
+                            console.log(response);
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
