@@ -1,3 +1,8 @@
+/**
+ * Node is single thread v8 engine based, used for I/O intensive processing, 
+ * not for CPU intensive processing. Since when node due with one request, others will wait
+ *
+ */
 const http = require('http');
 const fs = require('fs');
 const express = require('express');
@@ -9,6 +14,28 @@ const Logger = require('./Logger');
 const Cryptr = require('cryptr');
 const mysql = require('mysql');
 
+/**
+ * print command line arguments , via process.argv
+ * access global variable 'answer' which define in Logger.js file
+ * process.evn: system environment's settings
+ */
+console.log("argv:", process.argv, 
+            "global.answer:",answer,
+            //"process.env:", process.env
+            "port:", process.env.PORT || 8080
+            );
+
+// do something before exit
+process.on('exit', (code)=>{
+    console.log(`app is about to exit with code ${code}`);
+});
+//"console.dog is not a function" error will be caught here
+process.on('uncaughtException',(err)=>{
+    console.error(err);
+    process.exit(1);
+});
+
+//console.dog();
 /**
  * get mysql connection instance
  */
