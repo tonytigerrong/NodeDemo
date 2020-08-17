@@ -67,7 +67,8 @@ connection.query("select * from employee",(error,rows,fields)=>{
 var cryptr = new Cryptr('secret');
 var encryptString = cryptr.encrypt("mypassword");
 var decryptString = cryptr.decrypt(encryptString);
-console.log(encryptString,decryptString);
+// 1st string is encrpted string, 2nd string is decrypted string
+//console.log(encryptString,decryptString);
 
 const emitter = new EventEmitter();
 const app = express();
@@ -104,13 +105,16 @@ app.use((req,res,next)=>{
 app.set('view engine','ejs');
 
 const people = require('./router/people');
+const api    = require('./router/api');
+const mongotest = require('./router/mongo');
 /** using router middle ware
  *  route uri start with 'people'
  *  http://localhost:4000/people
  *  http://localhost:4000/people/user
  */
 app.use('/people',people);
-
+app.use('/api', api);
+app.use('/mongotest',mongotest);
 /**
  * http://localhost:4000/query
  */
