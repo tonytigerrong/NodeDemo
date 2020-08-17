@@ -59,8 +59,10 @@ connection.query("select * from employee",(error,rows,fields)=>{
     if(!!error){
 
     }else{
-        //console.log(rows);
-       // console.log(fields);
+        rows.forEach((element,row_num) => {
+            //console.log("row",row_num,element);
+        });
+       //console.log(fields);
     }
 });
 
