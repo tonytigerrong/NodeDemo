@@ -13,6 +13,8 @@ const EventEmitter = require('events');
 const Logger = require('./Logger');
 const Cryptr = require('cryptr');
 const mysql = require('mysql');
+const mongo_connection = require('./model');
+
 
 /**
  * print command line arguments , via process.argv
@@ -109,6 +111,8 @@ app.set('view engine','ejs');
 const people = require('./router/people');
 const api    = require('./router/api');
 const mongotest = require('./router/mongo');
+
+const mongoosetest = require('./router/mongoose');
 /** using router middle ware
  *  route uri start with 'people'
  *  http://localhost:4000/people
@@ -117,6 +121,7 @@ const mongotest = require('./router/mongo');
 app.use('/people',people);
 app.use('/api', api);
 app.use('/mongotest',mongotest);
+app.use('/mongoosetest',mongoosetest);
 /**
  * http://localhost:4000/query
  */
