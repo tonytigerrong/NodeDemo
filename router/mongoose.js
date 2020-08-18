@@ -21,4 +21,19 @@ route.get('/list',(req, res)=>{
     });
 });
 
+/**
+ * create a user
+ * post body:
+ *  {
+        "firstName": "testFirstName",
+        "lastName": "testLastName"
+    }
+ */
+route.post('/adduser',(req,res)=>{
+    var user = new CustomerModel();
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.save();
+    res.json(user);
+});
 module.exports = route;
