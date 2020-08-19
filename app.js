@@ -14,7 +14,7 @@ const Logger = require('./Logger');
 const Cryptr = require('cryptr');
 const mysql = require('mysql');
 const mongo_connection = require('./model');
-
+const cors = require('cors');
 
 /**
  * print command line arguments , via process.argv
@@ -106,6 +106,8 @@ app.use((req,res,next)=>{
     req.banana = 'banana.login';
     next();
 });
+// unlock ' CORS policy'
+app.use(cors());
 app.set('view engine','ejs');
 
 const people = require('./router/people');

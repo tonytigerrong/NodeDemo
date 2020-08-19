@@ -7,10 +7,10 @@ const CustomerModel = mongoose.model('users');
  */
 route.get('/list',(req, res)=>{
     // create a document into 'users' collection
-    var user = new CustomerModel();
-    user.firstName = 'david';
-    user.lastName = 'Smith';
-    user.save();
+    // var user = new CustomerModel();
+    // user.firstName = 'david';
+    // user.lastName = 'Smith';
+    // user.save();
     CustomerModel.find((err, result)=>{
         if(!err){
             console.log(result);
