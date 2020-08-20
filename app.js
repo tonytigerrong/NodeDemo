@@ -1,4 +1,5 @@
 /**
+ * training url: https://www.youtube.com/watch?v=JnvKXcSI7yk&t=11387s
  * Node is single thread v8 engine based, used for I/O intensive processing, 
  * not for CPU intensive processing. Since when node due with one request, others will wait
  *
